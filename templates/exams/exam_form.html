@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4 display-4 fw-bold text-primary animate__animated animate__fadeInDown">
+        {% if form.instance.pk %} ✏️ Edit Exam {% else %} ➕ Add New Exam {% endif %}
+    </h1>
+
+    <!-- Exam Form -->
+    <div class="card shadow-lg rounded-4 border-0 animate__animated animate__zoomIn">
+        <div class="card-body">
+            <form method="post" novalidate>
+                {% csrf_token %}
+
+                <!-- Loop through form fields -->
+                {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <div class="form-text text-muted">{{ field.help_text }}</div>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <div class="text-danger">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+
+                <!-- Submit Button -->
+                <div class="text-end">
+                    <button type="submit" class="btn btn-primary btn-lg shadow">💾 Save Exam</button>
+                    <a href="{% url 'exams:exam_list' %}" class="btn btn-secondary btn-lg shadow">⬅️ Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Animate.css CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+{% endblock %}

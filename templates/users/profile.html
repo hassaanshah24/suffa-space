@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}My Profile - SuffaSpace{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card shadow-lg rounded border-0" data-aos="fade-up">
+                <div class="card-header bg-maroon text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">My Profile</h4>
+                    <div class="dropdown">
+                        <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Sections
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#basic-info">Basic Info</a></li>
+                            <li><a class="dropdown-item" href="#profile-info">Profile Info</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card-body p-4">
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-success">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div id="basic-info" class="mb-4">
+                            <h5 class="text-maroon mb-3">👤 Basic Info</h5>
+                            <div class="p-3 bg-light rounded shadow-sm border">
+                                {{ form.username|as_crispy_field }}
+                                {{ form.first_name|as_crispy_field }}
+                                {{ form.last_name|as_crispy_field }}
+                                {{ form.email|as_crispy_field }}
+                            </div>
+                        </div>
+
+                        <div id="profile-info" class="mb-4">
+                            <h5 class="text-maroon mb-3">📄 Profile Info</h5>
+                            <div class="p-3 bg-light rounded shadow-sm border">
+                                {{ form.user_type|as_crispy_field }}
+                                {{ form.department|as_crispy_field }}
+                                {{ form.contact_number|as_crispy_field }}
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-maroon btn-lg">
+                                <i class="fas fa-save me-2"></i> Update Profile
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    :root {
+        --maroon: #800000;
+        --maroon-hover: #660000;
+        --light-bg: #f8f9fa;
+    }
+
+    .bg-maroon {
+        background-color: var(--maroon) !important;
+    }
+
+    .text-maroon {
+        color: var(--maroon) !important;
+    }
+
+    .btn-maroon {
+        background-color: var(--maroon);
+        color: #fff;
+        border: none;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-maroon:hover {
+        background-color: var(--maroon-hover);
+        transform: translateY(-2px);
+    }
+
+    .card {
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .dropdown-menu {
+        border-radius: 0.5rem;
+        animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+</style>
+{% endblock %}

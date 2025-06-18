@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Animate.css CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<div class="container mt-5">
+
+    <!-- Welcome Banner -->
+    <div class="alert alert-primary text-center fs-4 fw-bold animate__animated animate__fadeInDown rounded-4 shadow">
+        🎓 Welcome, {{ user.first_name }} {{ user.last_name }} ({{ user.department }})
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="row mb-4 gy-4">
+        <div class="col-md-4">
+            <div class="card text-white bg-success shadow-lg rounded-4 animate__animated animate__fadeInLeft">
+                <div class="card-body text-center fs-4">
+                    📚 Total Courses: {{ total_courses }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-info shadow-lg rounded-4 animate__animated animate__fadeInUp">
+                <div class="card-body text-center fs-4">
+                    🗓️ Upcoming Classes: {{ upcoming_classes|length }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-warning shadow-lg rounded-4 animate__animated animate__fadeInRight">
+                <div class="card-body text-center fs-4">
+                    🕑 Invigilator Duties: {{ invigilator_duties|length }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Panels -->
+    <div class="row gy-4">
+
+        <!-- Upcoming Classes -->
+        <div class="col-md-6">
+            <div class="card shadow-lg rounded-4 border-0 h-100 animate__animated animate__zoomIn">
+                <div class="card-body">
+                    <h5 class="card-title fs-3 mb-3 text-primary">📅 Upcoming Classes</h5>
+                    {% if upcoming_classes %}
+                        <ul class="list-group list-group-flush">
+                            {% for cls in upcoming_classes %}
+                                <li class="list-group-item">{{ cls.course }} | {{ cls.date }} | {{ cls.time }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted">No upcoming classes.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Exams Schedule -->
+        <div class="col-md-6">
+            <div class="card shadow-lg rounded-4 border-0 h-100 animate__animated animate__zoomIn animate__delay-1s">
+                <div class="card-body">
+                    <h5 class="card-title fs-3 mb-3 text-danger">📝 Exams Schedule</h5>
+                    {% if exams %}
+                        <ul class="list-group list-group-flush">
+                            {% for exam in exams %}
+                                <li class="list-group-item">{{ exam.course }} | {{ exam.date }} | Room: {{ exam.room }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted">No upcoming exams.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Courses -->
+        <div class="col-md-6">
+            <div class="card shadow-lg rounded-4 border-0 h-100 animate__animated animate__zoomIn animate__delay-2s">
+                <div class="card-body">
+                    <h5 class="card-title fs-3 mb-3 text-success">📚 My Courses</h5>
+                    {% if courses %}
+                        <ul class="list-group list-group-flush">
+                            {% for course in courses %}
+                                <li class="list-group-item">{{ course }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted">No courses assigned.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Room Bookings -->
+        <div class="col-md-6">
+            <div class="card shadow-lg rounded-4 border-0 h-100 animate__animated animate__zoomIn animate__delay-3s">
+                <div class="card-body">
+                    <h5 class="card-title fs-3 mb-3 text-info">🏢 Room Bookings</h5>
+                    {% if booked_rooms %}
+                        <ul class="list-group list-group-flush">
+                            {% for room in booked_rooms %}
+                                <li class="list-group-item">{{ room.room }} | {{ room.date }} | {{ room.time }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted">No room bookings.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Invigilator Duties -->
+        <div class="col-md-6">
+            <div class="card shadow-lg rounded-4 border-0 h-100 animate__animated animate__zoomIn animate__delay-4s">
+                <div class="card-body">
+                    <h5 class="card-title fs-3 mb-3 text-warning">🕑 Invigilator Duties</h5>
+                    {% if invigilator_duties %}
+                        <ul class="list-group list-group-flush">
+                            {% for duty in invigilator_duties %}
+                                <li class="list-group-item">{{ duty.course }} | {{ duty.date }} | Room: {{ duty.room }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted">No duties assigned.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Announcements -->
+        <div class="col-md-6">
+            <div class="card shadow-lg rounded-4 border-0 h-100 animate__animated animate__zoomIn animate__delay-5s">
+                <div class="card-body">
+                    <h5 class="card-title fs-3 mb-3 text-secondary">📢 Announcements</h5>
+                    {% if notifications %}
+                        <ul class="list-group list-group-flush">
+                            {% for note in notifications %}
+                                <li class="list-group-item">{{ note }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted">No new announcements.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Floating Profile Button -->
+    <div class="position-fixed bottom-0 end-0 m-5 animate__animated animate__bounceInUp">
+        <a href="{% url 'users:profile' %}" class="btn btn-lg btn-gradient-primary rounded-circle shadow"
+           style="background: linear-gradient(45deg, #6a11cb, #2575fc); color: white; font-size: 1.5rem; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;">
+            <i class="bi bi-person"></i>
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}

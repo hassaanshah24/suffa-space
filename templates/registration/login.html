@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Login - SuffaSpace{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 85vh;">
+    <div class="login-container p-5 rounded shadow-lg" data-aos="zoom-in">
+        <div class="text-center mb-4">
+            <img src="{% static 'images/DHA_Suffa_University_Logo.svg.png' %}" alt="SuffaSpace Logo" height="50" class="mb-2">
+            <h3 class="fw-bold mb-0" style="color: var(--primary-color);">SuffaSpace Portal</h3>
+            <p class="text-muted">Please login to your account</p>
+        </div>
+
+        {% if form.errors %}
+            <div class="alert alert-danger text-center fade show mb-4" role="alert">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                Invalid username or password. Please try again.
+            </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}" novalidate>
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label fw-medium">Username</label>
+                <input type="text" name="username" class="form-control form-control-lg" placeholder="Enter username" required>
+            </div>
+            <div class="mb-4">
+                <label class="form-label fw-medium">Password</label>
+                <input type="password" name="password" class="form-control form-control-lg" placeholder="Enter password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 btn-lg">Login</button>
+        </form>
+
+        <div class="mt-4 text-center">
+            <a href="#" class="text-decoration-none link-maroon small">Forgot your password?</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .login-container {
+        max-width: 420px;
+        background-color: var(--glass-bg);
+        backdrop-filter: blur(14px);
+        border: 1px solid var(--glass-border);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        transition: all 0.3s ease;
+    }
+
+    .login-container:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+    .btn-primary:hover {
+        background-color: #6d0b0b; /* Darker maroon on hover */
+        border-color: #6d0b0b;
+    }
+
+    .link-maroon {
+        color: var(--primary-color);
+    }
+
+    .link-maroon:hover {
+        color: #6d0b0b;
+        text-decoration: underline;
+    }
+
+    body.dark-mode .login-container {
+        background-color: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h1 class="text-center mb-4 display-4 fw-bold text-primary animate__animated animate__fadeInDown">
+        🎓 My Exam Schedule
+    </h1>
+
+    <!-- Notifications -->
+    {% if notifications %}
+        <div class="alert alert-info shadow-lg animate__animated animate__fadeIn mb-4">
+            <ul class="mb-0">
+                {% for note in notifications %}
+                    <li>{{ note }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <div class="row gy-4">
+
+        <!-- Calendar View -->
+        <div class="col-md-8">
+            <div class="card shadow-lg rounded-4 border-0 animate__animated animate__zoomIn">
+                <div class="card-body">
+                    <h5 class="card-title fs-3 mb-3 text-success">📅 Calendar View</h5>
+                    <div id="examCalendar"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Seat Plan -->
+        <div class="col-md-4">
+            <div class="card shadow-lg rounded-4 border-0 animate__animated animate__zoomIn animate__delay-1s mb-4"
+                 style="transition: transform 0.3s ease-in-out; cursor: pointer;"
+                 onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 12px 28px rgba(0,0,0,0.4)';"
+                 onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 6px 18px rgba(0,0,0,0.2)';">
+                <div class="card-body">
+                    <h5 class="card-title fs-3 mb-3 text-warning">🎫 My Seat Plan</h5>
+                    {% if upcoming_exams %}
+                        <ul class="list-group list-group-flush">
+                            {% for exam in upcoming_exams %}
+                                <li class="list-group-item">
+                                    <strong>{{ exam.course }}</strong> <br>
+                                    Date: {{ exam.date }} <br>
+                                    Room: {{ exam.room }} <br>
+                                    Seat: {{ exam.seat }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted">No exams scheduled.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Floating Profile Button -->
+    <div class="position-fixed bottom-0 end-0 m-5 animate__animated animate__bounceInUp">
+        <a href="{% url 'users:profile' %}"
+           class="btn btn-lg btn-gradient-primary rounded-circle shadow"
+           style="background: linear-gradient(45deg, #6a11cb, #2575fc); color: white; font-size: 1.5rem; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;">
+            <i class="bi bi-person"></i>
+        </a>
+    </div>
+
+</div>
+
+<!-- FullCalendar JS and CSS (CDN) -->
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css' rel='stylesheet' />
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+
+<!-- Animate.css CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<!-- Calendar Init -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('examCalendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        themeSystem: 'bootstrap5',
+        height: 500,
+        events: [
+            {% for exam in upcoming_exams %}
+            {
+                title: '{{ exam.course }} - Room {{ exam.room }}',
+                start: '{{ exam.date }}'
+            },
+            {% endfor %}
+        ]
+    });
+    calendar.render();
+});
+</script>
+
+{% endblock %}

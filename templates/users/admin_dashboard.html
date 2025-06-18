@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Admin Dashboard - SuffaSpace{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <!-- Hero Section -->
+    <div class="text-center mb-5" data-aos="fade-down" data-aos-duration="1000">
+        <img src="{% static 'images/DHA_Suffa_University_Logo.svg.png' %}" alt="SuffaSpace Logo" height="100" class="mb-3">
+        <h1 class="display-5 fw-bold text-maroon">Welcome Admin</h1>
+        <p class="lead text-muted">Manage users and monitor platform activity.</p>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="row g-4 mb-5">
+
+        <div class="col-md-4">
+            <div class="card glassy shadow-lg border-0 p-4 text-center" data-aos="zoom-in" data-aos-delay="100">
+                <i class="fas fa-users fa-3x text-maroon mb-3"></i>
+                <h5 class="fw-bold">Total Users</h5>
+                <p class="display-6 fw-bold text-maroon">{{ total_users }}</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card glassy shadow-lg border-0 p-4 text-center" data-aos="zoom-in" data-aos-delay="200">
+                <i class="fas fa-user-tie fa-3x text-maroon mb-3"></i>
+                <h5 class="fw-bold">Admins</h5>
+                <p class="display-6 fw-bold text-maroon">{{ admins }}</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card glassy shadow-lg border-0 p-4 text-center" data-aos="zoom-in" data-aos-delay="300">
+                <i class="fas fa-graduation-cap fa-3x text-maroon mb-3"></i>
+                <h5 class="fw-bold">Students</h5>
+                <p class="display-6 fw-bold text-maroon">{{ students }}</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Actions Section -->
+    <div class="row g-4">
+
+        <!-- Manage Users -->
+        <div class="col-md-6">
+            <div class="card action-card bounce shadow-lg border-0 p-4 text-center" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-user-cog fa-3x text-maroon mb-3"></i>
+                <h5 class="fw-bold mb-3">Manage Users</h5>
+                <a href="/admin/auth/user/" class="btn btn-maroon w-100" target="_blank" rel="noopener noreferrer">
+                    Open Admin Panel
+                </a>
+            </div>
+        </div>
+
+        <!-- Reports / Analytics -->
+        <div class="col-md-6">
+            <div class="card action-card bounce shadow-lg border-0 p-4 text-center" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-chart-line fa-3x text-maroon mb-3"></i>
+                <h5 class="fw-bold mb-3">View Reports</h5>
+                <a href="#" class="btn btn-maroon w-100 disabled" title="Coming Soon" aria-disabled="true">
+                    Coming Soon
+                </a>
+            </div>
+        </div>
+
+        <!-- Manage Exams -->
+<div class="col-md-6">
+    <div class="card action-card bounce shadow-lg border-0 p-4 text-center" data-aos="fade-up" data-aos-delay="300">
+        <i class="fas fa-calendar-plus fa-3x text-maroon mb-3"></i>
+        <h5 class="fw-bold mb-3">Manage Exams</h5>
+        <a href="{% url 'exams:exam_list' %}" class="btn btn-maroon w-100">
+            Open Exam List
+        </a>
+    </div>
+</div>
+
+<!-- Add New Exam -->
+<div class="col-md-6">
+    <div class="card action-card bounce shadow-lg border-0 p-4 text-center" data-aos="fade-up" data-aos-delay="400">
+        <i class="fas fa-plus-circle fa-3x text-maroon mb-3"></i>
+        <h5 class="fw-bold mb-3">Add New Exam</h5>
+        <a href="{% url 'exams:exam_add' %}" class="btn btn-maroon w-100">
+            Add Exam
+        </a>
+    </div>
+</div>
+
+
+    </div>
+
+</div>
+
+<!-- Styles -->
+<style>
+    :root {
+        --maroon: #800000;
+        --maroon-hover: #660000;
+        --light-bg: #f8f9fa;
+        --glassy-bg: rgba(255, 255, 255, 0.15);
+        --glassy-border: rgba(255, 255, 255, 0.25);
+    }
+
+    .text-maroon {
+        color: var(--maroon) !important;
+    }
+
+    .btn-maroon {
+        background-color: var(--maroon);
+        color: #fff;
+        border: none;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-maroon:hover:not(.disabled) {
+        background-color: var(--maroon-hover);
+        transform: translateY(-2px);
+    }
+
+    .glassy {
+        background: var(--glassy-bg);
+        backdrop-filter: blur(14px);
+        border: 1px solid var(--glassy-border);
+        border-radius: 1rem;
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .glassy:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .action-card {
+        border-radius: 1rem;
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .action-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Bounce Animation */
+    .bounce {
+        animation: bounceIn 1s ease;
+    }
+
+    @keyframes bounceIn {
+        0%   { transform: scale(0.95); opacity: 0; }
+        60%  { transform: scale(1.05); opacity: 1; }
+        100% { transform: scale(1); }
+    }
+</style>
+{% endblock %}
